@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA de Renda Fixa</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">Atlas Income AI</div>
+      <nav class="nav">
+        <span>Como funciona</span>
+        <span>Perfil</span>
+        <span>Recomendações</span>
+      </nav>
+    </header>
+
+    <main class="main">
+      <section class="hero">
+        <div>
+          <div class="badge">Inteligência para renda fixa</div>
+
+          <h1 class="typing-title">
+            <span id="typed-text"></span><span class="cursor">|</span>
+          </h1>
+
+          <p id="subtitle" class="subtitle">
+            Recomendações objetivas, com foco em preservação de capital, previsibilidade e clareza para decisões conservadoras.
+          </p>
+
+          <div id="buttons" class="buttons">
+            <button class="btn-primary">Iniciar análise</button>
+            <button class="btn-secondary">Ver metodologia</button>
+          </div>
+        </div>
+
+        <div id="panel" class="panel">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="eyebrow">Recomendação principal</div>
+                <div class="main-title">CDB pós-fixado</div>
+              </div>
+              <div class="pill">98% do CDI</div>
+            </div>
+
+            <div class="stats">
+              <div class="stat-box">
+                <div class="stat-label">Risco</div>
+                <div class="stat-value">Baixo</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Liquidez</div>
+                <div class="stat-value">Diária</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Objetivo</div>
+                <div class="stat-value">Preservação</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card small">
+            <div class="rec-title">Tesouro Selic</div>
+            <div class="rec-tag">Alta liquidez</div>
+            <div class="rec-detail">Indicado para reserva e objetivos de curto prazo.</div>
+          </div>
+
+          <div class="card small">
+            <div class="rec-title">CDB com liquidez diária</div>
+            <div class="rec-tag">FGC e previsibilidade</div>
+            <div class="rec-detail">Boa alternativa para segurança com retorno estável.</div>
+          </div>
+
+          <div class="card small">
+            <div class="rec-title">LCI/LCA conservadora</div>
+            <div class="rec-tag">Possível isenção de IR</div>
+            <div class="rec-detail">Para quem aceita prazo maior com foco em preservação.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <button id="soundButton" class="sound-btn" aria-label="Desativar som" title="Som ativado">
+    <svg id="soundIcon" viewBox="0 0 24 24">
+      <path d="M11 5L6 9H3V15H6L11 19V5Z"></path>
+      <path d="M15 9C16.2 10 17 11.3 17 12.5C17 13.7 16.2 15 15 16"></path>
+      <path d="M17.5 6.5C19.5 8.2 21 10.2 21 12.5C21 14.8 19.5 16.8 17.5 18.5"></path>
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
