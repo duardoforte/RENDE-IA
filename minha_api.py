@@ -83,6 +83,9 @@ def _criar_navegador_furtivo() -> "tuple[uc.Chrome, object | None]":
     opcoes.add_argument("--no-sandbox")
     opcoes.add_argument("--disable-dev-shm-usage")
     opcoes.add_argument("--disable-gpu")
+    # Sem GPU no servidor, evita o Chromium tentar (e falhar) a inicialização de
+    # EGL/ANGLE e cair no rasterizador de software com erro.
+    opcoes.add_argument("--disable-software-rasterizer")
 
     chrome_major = _detectar_chrome_major()
     if chrome_major:
@@ -117,6 +120,17 @@ def _criar_navegador_furtivo() -> "tuple[uc.Chrome, object | None]":
         display.start()
         print(f"   Tela virtual efêmera iniciada via pyvirtualdisplay (DISPLAY={os.environ.get('DISPLAY')})")
 
+    # ── Binários do sistema (apt) em vez de download do uc ───────────────────────
+    # Usa o Chromium + chromedriver instalados pelo Dockerfile, que o Debian mantém
+    # em versões CASADAS. Passá-los explicitamente evita o undetected-chromedriver
+    # baixar da internet um chromedriver "patched" que não bate com o build do
+    # Chromium — descasamento que aparece como "chrome not reachable" mesmo com a
+    # tela virtual e o --no-sandbox corretos. `version_main` só é usado como último
+    # recurso (quando o chromedriver do sistema não é encontrado).
+    chromium_bin = shutil.which("chromium") or shutil.which("chromium-browser")
+    chromedriver_bin = shutil.which("chromedriver")
+    print(f"   Binários do sistema → chromium={chromium_bin} | chromedriver={chromedriver_bin}")
+
     # use_subprocess=True isola o driver em processo separado (limpeza mais segura
     # no Linux quando o script crasha entre as fases de CF e parsing).
     try:
@@ -124,7 +138,11 @@ def _criar_navegador_furtivo() -> "tuple[uc.Chrome, object | None]":
             options=opcoes,
             headless=headless,
             use_subprocess=True,
-            version_main=chrome_major,  # None → uc tenta sozinho; int → força match
+            browser_executable_path=chromium_bin,
+            driver_executable_path=chromedriver_bin,
+            # Só força version_main se NÃO houver chromedriver do sistema (aí o uc
+            # baixa o dele e precisa saber a major para casar com o Chromium).
+            version_main=None if chromedriver_bin else chrome_major,
         )
     except Exception:
         # Navegador falhou ao subir: encerra a tela aqui para não vazar um Xvfb
