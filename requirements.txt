@@ -2,6 +2,11 @@
 selenium>=4.0.0
 webdriver-manager>=4.0.0
 undetected-chromedriver>=3.5.5
+# pyvirtualdisplay: gerencia uma tela virtual (Xvfb) EFÊMERA por execução do
+# scraper, alocando um display livre e removendo o lock (/tmp/.X*-lock) no fim.
+# Elimina o Xvfb :99 fixo do CMD e o erro "Server is already active for display".
+# Requer o binário `xvfb` no sistema (já instalado no Dockerfile).
+pyvirtualdisplay>=3.0
 # setuptools: necessário em Python 3.12+ porque o undetected-chromedriver 3.5.x
 # ainda faz `from distutils.version import LooseVersion`, e o distutils foi
 # REMOVIDO da stdlib no Python 3.12 (PEP 632). O setuptools registra um shim
