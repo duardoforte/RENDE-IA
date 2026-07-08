@@ -1,0 +1,36 @@
+INFO:     Started server process [5786]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[Gemini] Usando modelo: gemini-2.0-flash
+INFO:     127.0.0.1:44094 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44110 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44102 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44102 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44118 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44110 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44126 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40064 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40064 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40064 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40066 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40066 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40066 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40086 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40086 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40102 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49756 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49756 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49766 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49782 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49782 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49788 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49804 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49804 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49810 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45360 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45360 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45360 - "GET /script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45382 - "GET /principal.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45382 - "GET /styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45390 - "GET /script.js HTTP/1.1" 200 OK

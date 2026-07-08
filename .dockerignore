@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.db
+*.log
+server.log
+erro_extracao.png
+data/
+tests/
+.vscode/

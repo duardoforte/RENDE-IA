@@ -1,0 +1,27 @@
+# Web scraping
+selenium>=4.0.0
+webdriver-manager>=4.0.0
+undetected-chromedriver>=3.5.5
+# setuptools: necessário em Python 3.12+ porque o undetected-chromedriver 3.5.x
+# ainda faz `from distutils.version import LooseVersion`, e o distutils foi
+# REMOVIDO da stdlib no Python 3.12 (PEP 632). O setuptools registra um shim
+# de compatibilidade que reativa `import distutils` transparentemente.
+setuptools>=66.0
+
+# Data science
+pandas>=2.0.0
+numpy>=1.26.0
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+
+# IA
+google-genai>=1.0.0
+
+# API
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+python-multipart>=0.0.6
+
+# Config
+python-dotenv>=1.0.0
+APScheduler>=3.10.4

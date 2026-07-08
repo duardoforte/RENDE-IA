@@ -2,6 +2,16 @@ import sqlite3
 # O Banco de dados chama o Chef (processador), que por sua vez chama o Entregador (minha_api)
 from processador import processar_titulos
 
+def contar_titulos_no_banco() -> int:
+    try:
+        with sqlite3.connect("tesouro_direto.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT COUNT(*) FROM titulos")
+            return int(cursor.fetchone()[0] or 0)
+    except sqlite3.OperationalError:
+        return 0
+
+
 def salvar_no_banco(dados):
     """
     Cria o banco de dados e salva a lista de dicionários em uma tabela SQL.
@@ -48,10 +58,19 @@ def salvar_no_banco(dados):
     print(f"\n💾 SUCESSO! {len(dados)} títulos foram salvos no arquivo 'tesouro_direto.db'.")
     print("Sua IA já pode acessar este banco de dados e fazer análises milionárias!")
 
-# Se você rodar este arquivo diretamente, ele aciona a esteira inteira!
-if __name__ == "__main__":
+def atualizar_banco_tesouro() -> int:
+    """Executa a esteira completa e atualiza o SQLite do Tesouro Direto."""
     print("--- INICIANDO ESTEIRA COMPLETA DE DADOS ---")
     dados_limpos = processar_titulos()
-    
-    if dados_limpos:
-        salvar_no_banco(dados_limpos)
+
+    if not dados_limpos:
+        print("Nenhum dado limpo recebido; banco não foi alterado.")
+        return 0
+
+    salvar_no_banco(dados_limpos)
+    return len(dados_limpos)
+
+
+# Se você rodar este arquivo diretamente, ele aciona a esteira inteira!
+if __name__ == "__main__":
+    atualizar_banco_tesouro()

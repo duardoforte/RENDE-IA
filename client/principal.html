@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Rende IA</title>
+  <link rel="icon" type="image/png" href="rende_ia_logo.png" />
+  <link rel="apple-touch-icon" href="rende_ia_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ─── LANDING ──────────────────────────────────────────────────────────── -->
+  <div id="view-landing" class="view view--visible">
+    <header class="header">
+      <div class="logo">Rende IA</div>
+
+    </header>
+    <div class="landing-body">
+      <section class="hero">
+        <div class="hero-content">
+          <div class="badge"><span class="badge-dot"></span>Sua IA para Renda Fixa</div>
+          <h1 class="typing-title"><span id="typed-text"></span><span class="cursor">|</span></h1>
+          <p id="subtitle" class="subtitle">Decisões seguras não precisam ser complexas. A Rende IA vai traçar o caminho mais inteligente e claro para rentabilizar seu dinheiro com previsibilidade e proteção absoluta.</p>
+          <div id="buttons" class="buttons">
+            <button class="btn-primary" id="btnStartAnalysis">Iniciar análise</button>
+            <button class="btn-sobre" id="btnSobre">Sobre</button>
+          </div>
+        </div>
+
+        <div id="panel" class="panel">
+          <div class="card small">
+            <div class="rec-title">Tesouro Selic</div>
+            <div class="rec-tag">Risco Baixíssimo</div>
+            <div class="rec-tag">Liquidez Diária (D+0)</div>
+            <div class="rec-tag">Reserva de Emergência</div>
+            <div class="rec-detail">O investimento mais seguro do país e a porta de entrada ideal para quem busca proteger o capital. Seu rendimento acompanha de perto a taxa básica de juros da economia, garantindo uma evolução patrimonial linear e sem oscilações negativas.</div>
+          </div>
+          <div class="card small">
+            <div class="rec-title">Tesouro IPCA+</div>
+            <div class="rec-tag">Proteção Real</div>
+            <div class="rec-tag">Ganho Acima da Inflação</div>
+            <div class="rec-tag">Médio e Longo Prazo</div>
+            <div class="rec-detail">A ferramenta definitiva para blindar o seu poder de compra contra os efeitos corrosivos da inflação ao longo do tempo. Este título garante uma rentabilidade híbrida: você recebe uma taxa de juros fixa real mais a variação oficial do IPCA do período.</div>
+          </div>
+          <div class="card small">
+            <div class="rec-title">Tesouro Prefixado</div>
+            <div class="rec-tag">Rentabilidade Travada</div>
+            <div class="rec-tag">Previsibilidade Total</div>
+            <div class="rec-tag">Ciclo de Queda de Juros</div>
+            <div class="rec-detail">Desenvolvido para investidores que exigem controle e previsibilidade absoluta sobre suas finanças. Ao contratar este título, você "trava" uma taxa de juros fixa e sabe exatamente o valor exato em reais que irá resgatar no dia do vencimento, independentemente das crises políticas ou econômicas.</div>
+          </div>
+          <div class="card small">
+            <div class="rec-title">Tesouro Renda+</div>
+            <div class="rec-tag">Planejamento de Aposentadoria</div>
+            <div class="rec-tag">Renda Mensal por 20 Anos</div>
+            <div class="rec-tag">Blindagem Inflacionária</div>
+            <div class="rec-detail">Uma solução moderna e segura projetada sob medida para complementar a sua previdência privada ou pública de forma totalmente transparente.</div>
+          </div>
+          <div class="card small">
+            <div class="rec-title">Tesouro Educa+</div>
+            <div class="rec-tag">Futuro dos Filhos</div>
+            <div class="rec-tag">Custeio Universitário</div>
+            <div class="rec-tag">Renda Mensal por 5 Anos</div>
+            <div class="rec-detail">Criado especificamente para pais e responsáveis que desejam planejar com antecedência e tranquilidade o futuro educacional de seus filhos.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ─── PASSO 1 · Valor inicial ─────────────────────────────────────────── -->
+  <div id="view-step-1" class="view view--hidden-right form-view">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackStep1">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="form-body">
+      <div class="form-card" id="card1">
+        <div class="form-step">Passo 1 de 5</div>
+        <h2 class="form-question">Quanto você tem<br><em>para investir hoje?</em></h2>
+        <div class="input-wrapper">
+          <span class="currency-label" aria-hidden="true">R$</span>
+          <input type="text" id="inputStep1" class="money-input"
+            inputmode="numeric" placeholder="0"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            aria-label="Valor inicial em reais" />
+        </div>
+        <p class="input-hint">Deixe em branco ou coloque zero se for começar apenas com aportes mensais.</p>
+        <div class="chips-label">Valores sugeridos</div>
+        <div class="chips" id="chipsStep1">
+          <button class="chip" data-value="1000">R$&nbsp;1.000</button>
+          <button class="chip" data-value="5000">R$&nbsp;5.000</button>
+          <button class="chip" data-value="10000">R$&nbsp;10.000</button>
+          <button class="chip" data-value="25000">R$&nbsp;25.000</button>
+          <button class="chip" data-value="50000">R$&nbsp;50.000</button>
+          <button class="chip" data-value="100000">R$&nbsp;100k+</button>
+        </div>
+        <button class="btn-continue" id="btnStep1">
+          Continuar
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PASSO 2 · Aporte mensal ─────────────────────────────────────────── -->
+  <div id="view-step-2" class="view view--hidden-right form-view">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackStep2">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="form-body">
+      <div class="form-card" id="card2">
+        <div class="form-step">Passo 2 de 5</div>
+        <h2 class="form-question">Vai fazer depósitos<br><em>mensais?</em></h2>
+        <div class="input-wrapper">
+          <span class="currency-label" aria-hidden="true">R$</span>
+          <input type="text" id="inputStep2" class="money-input"
+            inputmode="numeric" placeholder="0"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            aria-label="Valor do aporte mensal em reais" />
+        </div>
+        <p class="input-hint">Deixe em branco ou zero se não pretende fazer aportes mensais.</p>
+        <div class="chips-label">Valores sugeridos</div>
+        <div class="chips" id="chipsStep2">
+          <button class="chip" data-value="100">R$&nbsp;100</button>
+          <button class="chip" data-value="300">R$&nbsp;300</button>
+          <button class="chip" data-value="500">R$&nbsp;500</button>
+          <button class="chip" data-value="1000">R$&nbsp;1.000</button>
+          <button class="chip" data-value="2000">R$&nbsp;2.000</button>
+        </div>
+        <button class="btn-continue" id="btnStep2">
+          Continuar
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PASSO 3 · Objetivo ───────────────────────────────────────────────── -->
+  <div id="view-step-3" class="view view--hidden-right form-view">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackStep3">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="form-body">
+      <div class="form-card" id="card3">
+        <div class="form-step">Passo 3 de 5</div>
+        <h2 class="form-question">O que pretende fazer<br><em>com o dinheiro?</em></h2>
+        <div class="chips chips-block" id="chipsStep3">
+          <button class="chip chip-block" data-value="reserva">
+            <div class="chip-label">Reserva de emergência</div>
+            <div class="chip-radio"></div>
+          </button>
+          <button class="chip chip-block" data-value="juros">
+            <div class="chip-label">Viver de juros</div>
+            <div class="chip-radio"></div>
+          </button>
+          <button class="chip chip-block" data-value="bem">
+            <div class="chip-label">Comprar um bem<span>carro ou casa</span></div>
+            <div class="chip-radio"></div>
+          </button>
+          <button class="chip chip-block" data-value="render">
+            <div class="chip-label">Render dinheiro sem meta específica</div>
+            <div class="chip-radio"></div>
+          </button>
+        </div>
+        <button class="btn-continue" id="btnStep3" disabled>
+          Continuar
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PASSO 4 · Prazo de resgate ──────────────────────────────────────── -->
+  <div id="view-step-4" class="view view--hidden-right form-view">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackStep4">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="form-body">
+      <div class="form-card" id="card4">
+        <div class="form-step">Passo 4 de 5</div>
+        <h2 class="form-question">Quando pretende<br><em>resgatar o dinheiro?</em></h2>
+        <div class="input-wrapper">
+          <input type="number" id="tempo_investimento" class="money-input"
+            inputmode="numeric" placeholder="0" min="1"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            aria-label="Quantidade de tempo do investimento" />
+        </div>
+
+        <!-- Toggle minimalista (substitui o <select> nativo, que renderizava com
+             cantos serrilhados quebrando o padrão arredondado da UI). O valor
+             selecionado vive no <input type="hidden"> para o submit normal do form. -->
+        <input type="hidden" id="unidade_tempo" value="anos" />
+        <div class="unit-toggle" id="unitToggle" role="tablist" aria-label="Unidade de tempo">
+          <button type="button" class="unit-toggle-btn" data-unit="meses" role="tab" aria-selected="false">Meses</button>
+          <button type="button" class="unit-toggle-btn active" data-unit="anos" role="tab" aria-selected="true">Anos</button>
+        </div>
+
+        <p class="input-hint">Informe o horizonte exato. O gráfico vai refletir esse prazo com precisão, sem cortes.</p>
+        <button class="btn-continue" id="btnStep4" disabled>
+          Continuar
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PASSO 5 · Conhecimento ───────────────────────────────────────────── -->
+  <div id="view-step-5" class="view view--hidden-right form-view">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackStep5">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="form-body">
+      <div class="form-card" id="card5">
+        <div class="form-step">Passo 5 de 5</div>
+        <h2 class="form-question">Qual seu nível de conhecimento<br><em>sobre investimentos?</em></h2>
+        <div class="chips chips-block" id="chipsStep5">
+          <button class="chip chip-block" data-value="iniciante">
+            <div class="chip-label">Iniciante<span>Estou aprendendo sobre investimentos</span></div>
+            <div class="chip-radio"></div>
+          </button>
+          <button class="chip chip-block" data-value="intermediario">
+            <div class="chip-label">Intermediário<span>Já invisto mas quero otimizar</span></div>
+            <div class="chip-radio"></div>
+          </button>
+          <button class="chip chip-block" data-value="avancado">
+            <div class="chip-label">Avançado<span>Tenho experiência em renda fixa e variável</span></div>
+            <div class="chip-radio"></div>
+          </button>
+        </div>
+        <button class="btn-continue" id="btnStep5" disabled>
+          Ver recomendações
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── LOADING ──────────────────────────────────────────────────────────── -->
+  <div id="view-loading" class="view view--hidden-right">
+    <div class="loading-center">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <p id="loadingMsg">Consultando o Tesouro Direto...</p>
+    </div>
+  </div>
+
+  <!-- ─── RESULTADOS ────────────────────────────────────────────────────────── -->
+  <div id="view-results" class="view view--hidden-right">
+    <header class="form-header results-header">
+      <button class="back-btn" id="btnNovaAnalise">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Nova análise
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <!-- Texto estreito (confortável para leitura) -->
+    <div class="results-body">
+
+      <!-- Badge de perfil ML -->
+      <div id="perfilBadge" class="perfil-badge">
+        <span class="badge-dot"></span>
+        <span id="perfilTexto">–</span>
+      </div>
+
+      <!-- Relatório Markdown -->
+      <div id="relatorioContent"></div>
+    </div>
+
+    <!-- Gráfico único centralizado (protagonista da tela) -->
+    <div class="results-charts-outer">
+      <div id="wrapProjecao">
+        <p class="grafico-label">Projeção de rendimento<span id="tituloVencedor"></span></p>
+        <div class="chart-canvas-wrap">
+          <canvas id="graficoProjecao" aria-label="Projeção interativa de juros compostos"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA: redireciona ao portal oficial do Tesouro Direto -->
+    <!-- Wrapper flex+justify-center neutraliza o `flex:1` de .btn-primary (que é -->
+    <!-- esperado dentro do container `.buttons` da landing). O <a> herda todo o -->
+    <!-- estilo visual do botão "Iniciar análise" e mantém a consistência da UI. -->
+    <!-- margin-bottom: 3rem dá folga sobre o footer fixo (height: 36px). -->
+    <div class="tesouro-cta-wrap">
+      <a class="btn-primary tesouro-cta"
+         href="https://www.tesourodireto.com.br/produtos/dados-sobre-titulos/rendimento-dos-titulos"
+         target="_blank"
+         rel="noopener noreferrer">
+        Acessar Tesouro Direto
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── SOBRE ──────────────────────────────────────────────────────────────── -->
+  <div id="view-sobre" class="view view--hidden-right">
+    <header class="form-header">
+      <button class="back-btn" id="btnBackSobre">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>Voltar
+      </button>
+      <div class="logo">Rende IA</div>
+    </header>
+    <div class="sobre-body">
+
+      <section class="sobre-section">
+        <h2 class="sobre-heading">Sobre o Desenvolvedor</h2>
+        <p class="sobre-text">Desenvolvido por mim, <strong>Eduardo Forte</strong>. Sou aluno de Engenharia de Software na Universidade do Estado do Pará (UEPA) e desenvolvedor Full-Stack com foco em Engenharia de Dados e Soluções de Inteligência Artificial. Com experiência na construção de pipelines de dados e integração de sistemas com LLMs (como GPT, Gemini e Claude), desenvolvi esta plataforma para simplificar a tomada de decisão financeira unindo tecnologia e análise de dados. Caso queiram entrar em contato, podem acessar meu <a href="https://www.linkedin.com/in/eduardo-forte-nascimento/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+      </section>
+
+      <section class="sobre-section">
+        <h2 class="sobre-heading">Tecnologias Utilizadas</h2>
+        <div class="tech-grid">
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">FastAPI</span>
+          <span class="tech-chip">Gemini 3.1 Flash Lite</span>
+          <span class="tech-chip">Scikit-Learn</span>
+          <span class="tech-chip">SQLite</span>
+          <span class="tech-chip">Pandas</span>
+          <span class="tech-chip">NumPy</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">Docker</span>
+          <span class="tech-chip">Web Speech API</span>
+          <span class="tech-chip">Selenium</span>
+          <span class="tech-chip">Uvicorn</span>
+          <span class="tech-chip">Pydantic</span>
+
+        </div>
+      </section>
+
+      <section class="sobre-section sobre-disclaimer">
+        <h2 class="sobre-heading">Transparência de Dados</h2>
+        <p class="sobre-text">Esta é uma ferramenta de estudo e simulação automatizada por Inteligência Artificial. Todas as opções de investimentos, taxas e simulações são extraídas <strong>EXPLICITAMENTE</strong> dos dados oficiais disponibilizados no site do Tesouro Direto. Para consultar os dados brutos e oficiais, acesse: <a href="https://www.tesourodireto.com.br/produtos/dados-sobre-titulos/rendimento-dos-titulos" target="_blank" rel="noopener noreferrer">Rendimento dos Títulos – Tesouro Direto</a>.</p>
+      </section>
+
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<footer class="site-footer">
+  <span>Desenvolvido por</span>
+  <a href="https://www.linkedin.com/in/eduardo-forte-nascimento/" target="_blank" rel="noopener noreferrer">Eduardo Forte</a>
+</footer>
+
+<!-- ─── SOUND LAYER – camada fixa z-index máximo, garante visibilidade em todos
+     os dispositivos independente de stacking contexts das views ─────────── -->
+<div class="sound-layer">
+  <button id="soundButton" class="sound-btn" aria-label="Ativar narrador" title="Ativar narrador">
+    <svg id="soundIcon" viewBox="0 0 24 24" fill="none"
+         stroke="#111111" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H3V15H6L11 19V5Z"></path>
+      <path d="M15 9C16.2 10 17 11.3 17 12.5C17 13.7 16.2 15 15 16"></path>
+      <path d="M17.5 6.5C19.5 8.2 21 10.2 21 12.5C21 14.8 19.5 16.8 17.5 18.5"></path>
+    </svg>
+    <span id="soundLabel" class="sound-label">Ativar narrador</span>
+  </button>
+</div>
+
+<!-- Toast stack — flutua no canto inferior direito quando o backend
+     sinaliza alerta_limite.excedido (prazo do usuário > vencimento máx Tesouro) -->
+<div id="toastStack" class="toast-stack" role="region" aria-live="polite" aria-label="Notificações"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<!-- chartjs-plugin-annotation: linha vertical tracejada no eixo X no vencimento máx -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

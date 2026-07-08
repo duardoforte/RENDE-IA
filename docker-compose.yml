@@ -1,0 +1,35 @@
+services:
+  rende-ia:
+    build: .
+    container_name: rende-ia
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TZ: America/Belem
+      RENDE_IA_DB_UPDATE_HOUR: "2"
+      RENDE_IA_DB_UPDATE_MINUTE: "0"
+    ports:
+      # Publica APENAS em loopback: quem fala com o container é o Nginx local
+      # (proxy reverso + SSL). A internet nunca acessa a 8000 direto — o firewall
+      # abre só 80/443. Em dev local, http://127.0.0.1:8000 continua funcionando.
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - sqlite-data:/data
+    shm_size: "1gb"
+    # Rotação de logs: sem isto o json-file cresce indefinidamente e lota o NVMe.
+    # Teto de ~50 MB por container (5 arquivos de 10 MB).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen(\"http://127.0.0.1:8000/api/health\", timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  sqlite-data:
