@@ -33,4 +33,8 @@ RUN mkdir -p /data \
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "Xvfb :99 -screen 0 1280x1024x24 -nolisten tcp & export DISPLAY=:99; exec uvicorn app:app --host 0.0.0.0 --port 8000"]
+# A tela virtual NÃO é mais iniciada aqui: o scraper abre uma tela efêmera por
+# execução via pyvirtualdisplay (minha_api.py) e a encerra no finally, o que evita
+# o lock zumbi /tmp/.X99-lock e o erro "Server is already active for display 99".
+# O binário `xvfb` continua instalado acima porque o pyvirtualdisplay o invoca.
+CMD ["sh", "-c", "exec uvicorn app:app --host 0.0.0.0 --port 8000"]
