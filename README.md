@@ -10,6 +10,30 @@ O sistema guia o usuário por um formulário simples, consulta uma base atualiza
 
 ---
 
+## Estrutura do Projeto
+
+```text
+IA_INVESTE/
+├── app.py                  # API FastAPI, rotas, scheduler e frontend estático
+├── assistente_ia.py         # Integração com Gemini e montagem do relatório
+├── banco_dados.py           # Criação e atualização do SQLite
+├── processador.py           # Normalização dos dados coletados
+├── minha_api.py             # Robô de coleta no site do Tesouro Direto
+├── pipeline_quantitativo.py # Análise quantitativa e seleção de oportunidades
+├── classificador_perfil.py  # Classificação de perfil com scikit-learn
+├── usage_limits.py          # Controle de limite por sessão
+├── client/
+│   ├── principal.html       # Interface principal
+│   ├── styles.css           # Estilos da aplicação
+│   └── script.js            # Formulário, chamada API, TTS e interações
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── tests/                   # Testes automatizados e E2E
+```
+
+---
+
 ## Principais Funcionalidades
 
 - **Recomendação personalizada de Tesouro Direto**
@@ -333,23 +357,6 @@ Use `-v` apenas se quiser apagar os dados persistidos.
 
 ---
 
-## Deploy em VPS
-
-Em uma VPS, o fluxo é o mesmo:
-
-```bash
-git clone <url-do-seu-repositorio>
-cd IA_INVESTE
-nano .env
-docker compose up -d --build
-```
-
-Depois, libere a porta `8000` no firewall ou configure um proxy reverso, como Nginx ou Traefik, apontando para o serviço FastAPI.
-
-Se o front-end for acessado por usuários externos, revise a constante `API_URL` em `client/script.js` para apontar para o domínio ou IP público correto da sua API, ou adapte para usar chamadas relativas ao mesmo domínio.
-
----
-
 ## Rotinas Automáticas
 
 ### Atualização diária dos títulos
@@ -372,30 +379,6 @@ Para desativar esse comportamento:
 
 ```env
 RENDE_IA_DISABLE_DB_BOOTSTRAP=true
-```
-
----
-
-## Estrutura do Projeto
-
-```text
-IA_INVESTE/
-├── app.py                  # API FastAPI, rotas, scheduler e frontend estático
-├── assistente_ia.py         # Integração com Gemini e montagem do relatório
-├── banco_dados.py           # Criação e atualização do SQLite
-├── processador.py           # Normalização dos dados coletados
-├── minha_api.py             # Robô de coleta no site do Tesouro Direto
-├── pipeline_quantitativo.py # Análise quantitativa e seleção de oportunidades
-├── classificador_perfil.py  # Classificação de perfil com scikit-learn
-├── usage_limits.py          # Controle de limite por sessão
-├── client/
-│   ├── principal.html       # Interface principal
-│   ├── styles.css           # Estilos da aplicação
-│   └── script.js            # Formulário, chamada API, TTS e interações
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-└── tests/                   # Testes automatizados e E2E
 ```
 
 ---
