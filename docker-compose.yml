@@ -2,6 +2,10 @@ services:
   rende-ia:
     build: .
     container_name: rende-ia
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
     restart: unless-stopped
     env_file:
       - .env
