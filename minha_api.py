@@ -1,3 +1,4 @@
+import os
 import re
 import shutil
 import subprocess
@@ -66,17 +67,43 @@ def _criar_navegador_furtivo() -> uc.Chrome:
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
     )
 
+    # ── Flags OBRIGATÓRIAS em container Docker (Linux, usuário root, sem GUI) ─────
+    # --no-sandbox: o Chromium RECUSA iniciar como root sem esta flag e morre no
+    #   startup. É a causa do "SessionNotCreatedException: chrome not reachable" —
+    #   o driver sobe, manda o browser iniciar, mas o processo do Chromium sai na
+    #   hora e ninguém escuta na porta de debug.
+    # --disable-dev-shm-usage: usa /tmp em vez de /dev/shm para as páginas do
+    #   renderer, evitando "tab crashed" quando o /dev/shm é pequeno. Mantemos por
+    #   segurança mesmo com shm_size=1gb no compose.
+    # --disable-gpu: sem GPU no servidor; evita ruído/erros do pipeline gráfico.
+    opcoes.add_argument("--no-sandbox")
+    opcoes.add_argument("--disable-dev-shm-usage")
+    opcoes.add_argument("--disable-gpu")
+
     chrome_major = _detectar_chrome_major()
     if chrome_major:
         print(f"   Chrome local detectado: versão {chrome_major} (alinhando ChromeDriver)")
     else:
         print("   Chrome local não detectado — uc fará auto-detecção")
 
+    # Headful sob Xvfb (DISPLAY=:99) é INTENCIONAL: o desafio da Cloudflare reprova
+    # navegador headless mesmo com undetected-chromedriver. Por isso o padrão é
+    # headful. Só caímos em headless=new como ÚLTIMO recurso, via
+    # RENDE_IA_SCRAPER_HEADLESS=true (ex.: se o host não tiver Xvfb disponível).
+    headless = str(os.getenv("RENDE_IA_SCRAPER_HEADLESS", "false")).strip().lower() in {
+        "1", "true", "yes", "sim", "on",
+    }
+    if headless:
+        opcoes.add_argument("--headless=new")
+        print("   Modo headless=new ativo (RENDE_IA_SCRAPER_HEADLESS=true) — atenção ao risco de bloqueio da Cloudflare")
+    else:
+        print("   Modo headful sob Xvfb (DISPLAY=:99) — recomendado contra a Cloudflare")
+
     # use_subprocess=True isola o driver em processo separado (limpeza mais segura
     # no Linux quando o script crasha entre as fases de CF e parsing).
     return uc.Chrome(
         options=opcoes,
-        headless=False,
+        headless=headless,
         use_subprocess=True,
         version_main=chrome_major,  # None → uc tenta sozinho; int → força match
     )
