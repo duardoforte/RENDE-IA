@@ -46,17 +46,21 @@ def _detectar_chrome_major() -> int | None:
     return None
 
 
-def _criar_navegador_furtivo() -> uc.Chrome:
+def _criar_navegador_furtivo() -> "tuple[uc.Chrome, object | None]":
     """
     Inicializa undetected-chromedriver com perfil reforçado contra o fingerprint
     da Cloudflare. Saliências:
       - viewport de desktop real (1366x768) — telas exóticas levantam suspeita
       - User-Agent desktop atualizado (a uc tenta sincronizar, mas reforçamos)
       - locale pt-BR (compatível com o público do Tesouro)
-      - sem headless: o desafio visual da CF reprova bots em modo headless mesmo
-        com uc; rodar visível é o trade-off para sobreviver ao challenge
+      - flags obrigatórias de Docker (--no-sandbox, --disable-dev-shm-usage)
+      - tela virtual efêmera via pyvirtualdisplay (headful, contra a Cloudflare)
       - version_main detectada automaticamente para casar com o Chrome local
         (evita SessionNotCreatedException por mismatch de versão do driver)
+
+    Retorna a tupla (navegador, display). O `display` (objeto pyvirtualdisplay ou
+    None em modo headless) DEVE ser encerrado pelo chamador no finally, garantindo
+    a remoção do lock da tela virtual a cada execução.
     """
     opcoes = uc.ChromeOptions()
     opcoes.add_argument("--window-size=1366,768")
@@ -86,27 +90,55 @@ def _criar_navegador_furtivo() -> uc.Chrome:
     else:
         print("   Chrome local não detectado — uc fará auto-detecção")
 
-    # Headful sob Xvfb (DISPLAY=:99) é INTENCIONAL: o desafio da Cloudflare reprova
-    # navegador headless mesmo com undetected-chromedriver. Por isso o padrão é
-    # headful. Só caímos em headless=new como ÚLTIMO recurso, via
-    # RENDE_IA_SCRAPER_HEADLESS=true (ex.: se o host não tiver Xvfb disponível).
+    # ── Tela virtual EFÊMERA via pyvirtualdisplay ───────────────────────────────
+    # Em vez de depender de um `Xvfb :99` global (que deixa /tmp/.X99-lock zumbi e
+    # provoca "Server is already active for display 99"), o próprio Python abre uma
+    # tela virtual com número LIVRE a cada execução. O chamador (extrair_dados_brutos)
+    # a encerra no finally com display.stop(), removendo o lock automaticamente —
+    # em caso de sucesso OU de falha.
+    #
+    # Headful sob essa tela é INTENCIONAL: o desafio da Cloudflare reprova navegador
+    # headless mesmo com undetected-chromedriver. Só usamos headless=new como ÚLTIMO
+    # recurso, via RENDE_IA_SCRAPER_HEADLESS=true (aí a tela virtual é dispensada).
     headless = str(os.getenv("RENDE_IA_SCRAPER_HEADLESS", "false")).strip().lower() in {
         "1", "true", "yes", "sim", "on",
     }
+
+    display = None
     if headless:
         opcoes.add_argument("--headless=new")
         print("   Modo headless=new ativo (RENDE_IA_SCRAPER_HEADLESS=true) — atenção ao risco de bloqueio da Cloudflare")
     else:
-        print("   Modo headful sob Xvfb (DISPLAY=:99) — recomendado contra a Cloudflare")
+        # Abre a tela ANTES do uc.Chrome: pyvirtualdisplay define os.environ['DISPLAY']
+        # para o número recém-alocado, que o Chromium herda ao subir. Import local
+        # para não exigir a lib quando rodando em modo headless puro.
+        from pyvirtualdisplay import Display
+        display = Display(visible=False, size=(1366, 768))
+        display.start()
+        print(f"   Tela virtual efêmera iniciada via pyvirtualdisplay (DISPLAY={os.environ.get('DISPLAY')})")
 
     # use_subprocess=True isola o driver em processo separado (limpeza mais segura
     # no Linux quando o script crasha entre as fases de CF e parsing).
-    return uc.Chrome(
-        options=opcoes,
-        headless=headless,
-        use_subprocess=True,
-        version_main=chrome_major,  # None → uc tenta sozinho; int → força match
-    )
+    try:
+        navegador = uc.Chrome(
+            options=opcoes,
+            headless=headless,
+            use_subprocess=True,
+            version_main=chrome_major,  # None → uc tenta sozinho; int → força match
+        )
+    except Exception:
+        # Navegador falhou ao subir: encerra a tela aqui para não vazar um Xvfb
+        # órfão (o finally do chamador só cobre o caso em que o navegador nasceu).
+        if display is not None:
+            try:
+                display.stop()
+            except Exception:
+                pass
+        raise
+
+    # Devolve a tela junto: o chamador a mantém viva enquanto usa o navegador e a
+    # encerra no finally, garantindo a limpeza do lock mesmo em caso de erro.
+    return navegador, display
 
 
 def extrair_dados_brutos():
@@ -118,7 +150,7 @@ def extrair_dados_brutos():
     visual — é o que distingue CAPTCHA da Cloudflare de mudança de DOM no site.
     """
     print("Iniciando o navegador no modo furtivo (undetected-chromedriver)...")
-    navegador = _criar_navegador_furtivo()
+    navegador, display = _criar_navegador_furtivo()
 
     try:
         print(f"Acessando a página e aguardando o Cloudflare (timeout {_TIMEOUT_CLOUDFLARE_S}s)...")
@@ -170,6 +202,14 @@ def extrair_dados_brutos():
             navegador.quit()
         except Exception:
             pass
+        # Encerra a tela virtual e remove o lock (/tmp/.X*-lock) SEMPRE — é isto que
+        # evita os arquivos zumbis e o "Server is already active for display".
+        if display is not None:
+            try:
+                display.stop()
+                print("Tela virtual encerrada e lock liberado.")
+            except Exception as disp_err:
+                print(f"   (falha ao encerrar a tela virtual: {type(disp_err).__name__} - {disp_err})")
         print("Navegador fechado com segurança.\n")
 
 
