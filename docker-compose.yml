@@ -17,6 +17,14 @@ services:
     volumes:
       - sqlite-data:/data
     shm_size: "1gb"
+    # Chromium 150 (Debian trixie) usa syscalls novas (ex.: clone3) que o perfil
+    # seccomp PADRÃO do Docker bloqueia → o processo do Chromium é derrubado com
+    # SIGTRAP (exit 133) logo no launch, mesmo com --no-sandbox (que só desliga o
+    # sandbox interno do Chromium, não o filtro seccomp do Docker). Liberar o
+    # seccomp para ESTE container resolve. Trade-off aceitável: o container roda
+    # uma única app confiável (não é multi-tenant).
+    security_opt:
+      - seccomp:unconfined
     # Rotação de logs: sem isto o json-file cresce indefinidamente e lota o NVMe.
     # Teto de ~50 MB por container (5 arquivos de 10 MB).
     logging:
