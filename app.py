@@ -9,7 +9,7 @@ load_dotenv()
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -177,6 +177,15 @@ def _derivar_prazo_bucket(total_meses: int) -> str:
 @app.get("/api/health")
 def health():
     return {"status": "online", "versao": "1.0.0"}
+
+
+# Raiz do site: serve a página principal DIRETO. O front não tem index.html — o
+# arquivo de entrada é principal.html. Sem esta rota, "/" cai no StaticFiles, que
+# procura index.html, não acha e devolve {"detail":"Not Found"}. Registrada ANTES
+# do app.mount("/") (lá no fim do arquivo), então tem precedência para o path "/".
+@app.get("/")
+def raiz():
+    return FileResponse("client/principal.html")
 
 
 # ── Dedupe de análises idênticas concorrentes ─────────────────────────────────
